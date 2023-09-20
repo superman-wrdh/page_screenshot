@@ -29,7 +29,12 @@ const screenshot = async (request, response) => {
     height = height !== undefined ? parseInt(height) : 1080
     let uuid = uuidv4().toString().replace(/-/g, "")
     fileName = fileName !== undefined ? fileName : `${uuid}.png`
-    await pageScreenshot(url, width, height, fileName)
+    try {
+        await pageScreenshot(url, width, height, fileName)
+    }catch (Exception){
+        response.send("截取网页出错了")
+        return
+    }
     response.sendFile(path.join(__dirname, "static", fileName))
 }
 
